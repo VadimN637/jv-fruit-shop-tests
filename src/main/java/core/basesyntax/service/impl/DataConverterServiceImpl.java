@@ -2,6 +2,7 @@ package core.basesyntax.service.impl;
 
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.DataConverterService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +25,13 @@ public class DataConverterServiceImpl implements DataConverterService {
                 continue;
             }
 
-            try {
-                FruitTransaction transaction = new FruitTransaction(
-                        FruitTransaction.Operation.fromCode(parts[0]),
-                        parts[1],
-                        Integer.parseInt(parts[2]));
-                result.add(transaction);
-            } catch (RuntimeException e) {
-                throw new RuntimeException("The mistake is " + e);
-            }
+            FruitTransaction.Operation operation = FruitTransaction.Operation.fromCode(parts[0]);
+            int quantity = Integer.parseInt(parts[2]);
+            result.add(new FruitTransaction(
+                    operation,
+                    parts[1],
+                    quantity));
         }
-
         return result;
     }
 }
