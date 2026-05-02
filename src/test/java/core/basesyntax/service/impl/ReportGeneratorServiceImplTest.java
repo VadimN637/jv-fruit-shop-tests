@@ -1,8 +1,8 @@
 package core.basesyntax.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import core.basesyntax.db.Storage;
-import static org.junit.Assert.assertTrue;
 
 public class ReportGeneratorServiceImplTest {
     private final ReportGeneratorServiceImpl report = new ReportGeneratorServiceImpl();
