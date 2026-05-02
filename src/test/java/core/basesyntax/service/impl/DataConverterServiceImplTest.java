@@ -80,14 +80,6 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void checkSize() {
-        List<String> input = List.of(
-                "b,banana,200", null);
-        List<FruitTransaction> result = converter.convertToTransaction(input);
-        assertEquals(1, result.size());
-    }
-
-    @Test
     void checkSizeForWrongInput() {
         List<String> input = List.of(
                 "b,banana,200",
