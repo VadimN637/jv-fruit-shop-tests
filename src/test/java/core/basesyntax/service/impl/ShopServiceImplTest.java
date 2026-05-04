@@ -16,16 +16,25 @@ import core.basesyntax.strategy.SupplyOperation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class ShopServiceImplTest {
+    private static OperationStrategy strategy;
+
+    @BeforeAll
+    static void setUp() {
+        Map<FruitTransaction.Operation, OperationHandler> map = new HashMap<>();
+        map.put(FruitTransaction.Operation.BALANCE, new BalanceOperation());
+        map.put(FruitTransaction.Operation.SUPPLY, new SupplyOperation());
+        map.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperation());
+        map.put(FruitTransaction.Operation.RETURN, new ReturnOperation());
+        strategy = new OperationStrategyImpl(map);
+    }
+
     @Test
     void testBalanceOp() {
         Storage.getStorage().clear();
-        OperationHandler handler = new BalanceOperation();
-        Map<FruitTransaction.Operation, OperationHandler> map = new HashMap<>();
-        map.put(FruitTransaction.Operation.BALANCE, handler);
-        OperationStrategy strategy = new OperationStrategyImpl(map);
         ShopService service = new ShopServiceImpl(strategy);
         List<FruitTransaction> input = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 100));
@@ -36,12 +45,6 @@ public class ShopServiceImplTest {
     @Test
     void process_emptyList_shouldDoNothing() {
         Storage.getStorage().clear();
-        Map<FruitTransaction.Operation, OperationHandler> map = new HashMap<>();
-        map.put(FruitTransaction.Operation.BALANCE, new BalanceOperation());
-        map.put(FruitTransaction.Operation.SUPPLY, new SupplyOperation());
-        map.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperation());
-        map.put(FruitTransaction.Operation.RETURN, new ReturnOperation());
-        OperationStrategy strategy = new OperationStrategyImpl(map);
         ShopService service = new ShopServiceImpl(strategy);
         service.process(List.of());
         assertTrue(Storage.getStorage().isEmpty());
