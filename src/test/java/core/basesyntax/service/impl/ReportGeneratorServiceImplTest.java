@@ -2,9 +2,8 @@ package core.basesyntax.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterEach;
-
 import core.basesyntax.db.Storage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class ReportGeneratorServiceImplTest {
