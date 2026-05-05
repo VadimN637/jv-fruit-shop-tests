@@ -16,6 +16,8 @@ import core.basesyntax.strategy.SupplyOperation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +34,13 @@ public class ShopServiceImplTest {
         strategy = new OperationStrategyImpl(map);
     }
 
-    @Test
-    void testBalanceOp() {
+    @AfterEach
+    void tearDown() {
         Storage.getStorage().clear();
+    }
+
+    @Test
+    void process_balanceOperation_setsInitialBalance() {
         ShopService service = new ShopServiceImpl(strategy);
         List<FruitTransaction> input = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 100));
@@ -44,7 +50,6 @@ public class ShopServiceImplTest {
 
     @Test
     void process_emptyList_shouldDoNothing() {
-        Storage.getStorage().clear();
         ShopService service = new ShopServiceImpl(strategy);
         service.process(List.of());
         assertTrue(Storage.getStorage().isEmpty());

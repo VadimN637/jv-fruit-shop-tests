@@ -12,7 +12,7 @@ public class DataConverterServiceImplTest {
     private final DataConverterServiceImpl converter = new DataConverterServiceImpl();
 
     @Test
-    void shouldConvertValidInput() {
+    void convert_validInput_returnsCorrectTransactions() {
         List<String> input = List.of(
                 "b,banana,200",
                 "s,apple,500",
@@ -42,19 +42,19 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void returnEmpty() {
+    void convert_emptyInput_returnsEmptyList() {
         List<FruitTransaction> result = converter.convertToTransaction(List.of());
         assertTrue(result.isEmpty());
     }
 
     @Test
-    void returnNull() {
+    void convert_nullInput_returnsEmptyList() {
         List<FruitTransaction> result = converter.convertToTransaction(null);
         assertTrue(result.isEmpty());
     }
 
     @Test
-    void returnEmptyForError() {
+    void convert_invalidFormat_returnsEmptyList() {
         List<String> input = List.of(
                 "b,banana,200,200",
                 "s,apple");
@@ -63,7 +63,7 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void returnEmptyForEmptyLine() {
+    void convert_emptyLines_returnsEmptyList() {
         List<String> input = List.of(
                 "",
                 "", "");
@@ -72,7 +72,7 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void returnErrorForWrongEnumElement() {
+    void convert_invalidOperation_throwsException() {
         List<String> input = List.of(
                 "x,banana,200");
         assertThrows(RuntimeException.class,
@@ -80,7 +80,7 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void checkSizeForWrongInput() {
+    void convert_partiallyInvalidInput_returnsOnlyValidTransactions() {
         List<String> input = List.of(
                 "b,banana,200",
                 "s,apple,505",
@@ -90,7 +90,7 @@ public class DataConverterServiceImplTest {
     }
 
     @Test
-    void throwExceptionForInvalidNumber() {
+    void convert_invalidNumber_throwsException() {
         List<String> input = List.of("b,banana,abc");
         assertThrows(RuntimeException.class,
                 () -> converter.convertToTransaction(input));

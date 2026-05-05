@@ -42,7 +42,7 @@ public class FileReaderServiceImplTest {
     }
 
     @Test
-    void readFileWithEmptyLines(@TempDir Path tempDir) throws Exception {
+    void read_fileWithEmptyLines_shouldIgnoreEmptyLines(@TempDir Path tempDir) throws Exception {
         Path file = tempDir.resolve("test.csv");
         Files.write(file, List.of(
                 "type,fruit,quantity",
@@ -55,7 +55,7 @@ public class FileReaderServiceImplTest {
     }
 
     @Test
-    void readEmptyFile(@TempDir Path tempDir) throws Exception {
+    void read_emptyFile_returnsEmptyList(@TempDir Path tempDir) throws Exception {
         Path file = tempDir.resolve("empty.csv");
         Files.write(file, List.of());
         List<String> result = service.read(file.toString());
